@@ -1,2 +1,0 @@
-# FitBite
-Aplicativo móvil saludable
