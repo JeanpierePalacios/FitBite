@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+//import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(MyApp());
@@ -89,13 +89,13 @@ class CaptureScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        var status = await Permission.camera.request();
+                        /*var status = await Permission.camera.request();
 
                         if (status.isGranted) {
                           // Permiso concedido, puedes acceder a la cámara y capturar la imagen
                         } else {
                           // Permiso denegado, muestra un mensaje o realiza alguna acción adicional
-                        }
+                        }*/
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF0CA5B0),
