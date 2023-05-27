@@ -1,15 +1,20 @@
-create database fitbites;
-
-use fitbites;
+drop database fitbite;
+create database fitbite;
+use fitbite;
 
 create table registro(
  idUser int auto_increment,
- nomUser varchar(50) not null,
  correoUser varchar(150) not null,
  passUser varchar(12) not null,
+ confirmPassUser varchar(12) not null,
+ fechaNacimiento DATE not null,
+ cellUser INT(12) not null,
  primary key(idUser),
  unique(correoUser)
 ) ENGINE=INNODB;
+
+INSERT INTO registro(correoUser, passUser, confirmPassUser, fechaNacimiento, cellUser)	
+VALUES('jeanpiere.palacios@gmail.com', '980518', '980518', '2001/02/04', 971791500);
 
 create table fruta(
 idFruta int auto_increment,
@@ -52,3 +57,5 @@ CONSTRAINT FK_idFruta FOREIGN KEY(idFruta) REFERENCES fruta(idFruta),
 CONSTRAINT FK_idComida FOREIGN KEY(idComida) REFERENCES comidas(idComida),
 CONSTRAINT FK_idVerduras FOREIGN KEY(idVerduras) REFERENCES verduras(idVerduras)
 ) ENGINE=INNODB;
+
+SELECT idUser FROM registro;

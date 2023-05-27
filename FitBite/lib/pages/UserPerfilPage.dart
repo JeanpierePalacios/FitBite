@@ -1,3 +1,4 @@
+import 'package:fitbite/pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
 
@@ -20,8 +21,10 @@ class UserPerfilPage extends StatelessWidget{
               left: 10,
               child: GestureDetector(
                 onTap: () {
-                  // Lógica para manejar el evento de presionar el botón de flecha
-                  // Aquí puedes agregar tu lógica personalizada.
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
                 },
                 child: Container(
                   decoration: const BoxDecoration(
