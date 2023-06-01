@@ -39,6 +39,12 @@ dependencies:
   http: ^0.13.0
   toast: ^0.2.9
   mysql1: ^0.20.0
+  camera: ^0.10.0
+  image_picker: ^0.8.4+4
+  path_provider: ^2.0.5
+  tflite_flutter: ^0.10.0
+  fluttertoast: ^8.0.8
+  tflite: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +82,8 @@ flutter:
     - assets/img/btnVerduras.jpg
     - assets/img/logo_fitbite.JPG
     - assets/img/img_arandano.jpg
+    - assets/mml_clasificador_fitbite.tflite
+    - assets/etiquetas_clasificador_fitbite.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
