@@ -1,24 +1,84 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:fitbite/pages/pagHome.dart';
 import 'package:fitbite/pages/pagResultadoComidas.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tflite/tflite.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-void main() {
-  runApp(MyApp());
-}
+String? imagePath;
 
-class MyApp extends StatelessWidget {
+class ResultadoClasificacionScreen extends StatefulWidget {
+  final String imagePath;
+
+  ResultadoClasificacionScreen({required this.imagePath});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Resultado Clasificacion App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ResultadoClasificacionScreen(),
-    );
-  }
+  _ResultadoClasificacionScreenState createState() =>
+      _ResultadoClasificacionScreenState();
 }
 
-class ResultadoClasificacionScreen extends StatelessWidget {
+class _ResultadoClasificacionScreenState
+    extends State<ResultadoClasificacionScreen> {
+  String etiqueta = 'Etiqueta';
+
+  @override
+  void initState() {
+    super.initState();
+    loadModel();
+    obtenerEtiqueta();
+  }
+
+  Future<void> loadModel() async {
+    try {
+      await Tflite.loadModel(
+        model: 'assets/mml_clasificador_fitbite.tflite',
+        labels: 'assets/etiquetas_clasificador_fitbite.txt',
+      );
+      Fluttertoast.showToast(msg: 'Modelo cargado correctamente');
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error al cargar el modelo: $e');
+    }
+  }
+
+  Future<void> obtenerEtiqueta() async {
+    List<dynamic>? resultado = await Tflite.runModelOnImage(
+      path: widget.imagePath,
+      numResults: 1,
+      threshold: 0.5,
+    );
+
+    if (resultado != null && resultado.isNotEmpty) {
+      double confidence = resultado[0]['confidence'] as double;
+      String etiquetaObtenida = resultado[0]['label'] as String;
+      if (confidence >= 0.5) {
+        setState(() {
+          etiqueta = etiquetaObtenida;
+        });
+      } else {
+        setState(() {
+          etiqueta = 'No se pudo determinar la fruta/verdura con certeza';
+        });
+      }
+    } else {
+      setState(() {
+        etiqueta = '¡Algo inesperado ocurrió! No se pudo determinar la fruta/verdura.';
+      });
+    }
+  }
+
+  Future<void> _captureImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setState(() {
+        imagePath = pickedImage.path;
+        obtenerEtiqueta();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +105,7 @@ class ResultadoClasificacionScreen extends StatelessWidget {
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center, // Centra horizontalmente los elementos
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 25.0),
               Text(
@@ -58,8 +118,8 @@ class ResultadoClasificacionScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 25.0),
-              Image.asset(
-                'assets/img/img_arandano.jpg',
+              Image.file(
+                File(widget.imagePath),
                 fit: BoxFit.contain,
               ),
               SizedBox(height: 15.0),
@@ -80,7 +140,7 @@ class ResultadoClasificacionScreen extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: 'Arándano',
+                            text: etiqueta,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -93,14 +153,16 @@ class ResultadoClasificacionScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ResultadoComidasScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => ResultadoComidasScreen(),
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF0CA5B0), // Color de fondo
-                        onPrimary: Colors.white, // Color de fuente
+                        primary: Color(0xFF0CA5B0),
+                        onPrimary: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), // Border-radius de 20.0
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
                       ),
                       child: Text(
@@ -108,42 +170,61 @@ class ResultadoClasificacionScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18.0,
                         ),
-                      ), // Texto del botón
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 200.0), // Añade espacio adicional para que haya suficiente altura para el desplazamiento vertical
+              SizedBox(height: 25.0),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home, size: 27.0, color: Color(0XFF0CA5B0)),
-              onPressed: () {
-                // Acción para el ícono de casa
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-              onPressed: () {
-                // Acción para el ícono de cámara
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-              onPressed: () {
-                // Acción para el ícono de usuario
-              },
-            ),
-          ],
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.0), // padding para 'bottomNavigationBar' con 'body'
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: null,
+                child: Icon(Icons.home, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _captureImage();
+                },
+                child: Icon(Icons.camera_alt, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      // Aquí puedes definir la pantalla a la que deseas navegar
+                      // mientras vas completando su implementación
+                      return HomeScreen();
+                    }),
+                  );
+                },
+                child: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+void main() {
+  String imagePath = '';
+  runApp(MaterialApp(
+    title: 'Resultado Clasificacion App',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: ResultadoClasificacionScreen(imagePath: imagePath),
+  ));
 }

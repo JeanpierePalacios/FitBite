@@ -1,5 +1,10 @@
+import 'package:fitbite/pages/pagHome.dart';
+import 'package:fitbite/pages/pagResultadoClasificacion.dart';
 import 'package:flutter/material.dart';
-//import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+String? imagePath;
 
 void main() {
   runApp(MyApp());
@@ -19,6 +24,22 @@ class MyApp extends StatelessWidget {
 }
 
 class CaptureScreen extends StatelessWidget {
+  Future<void> navigateToResultadoClasificacion(BuildContext context, String imagePath) async {
+    final status = await Permission.camera.request();
+    if (status.isGranted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultadoClasificacionScreen(
+            imagePath: imagePath,
+          ),
+        ),
+      );
+    } else {
+      // Permiso denegado, muestra un mensaje o realiza alguna acción adicional
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,23 +108,27 @@ class CaptureScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        /*var status = await Permission.camera.request();
+                    child: GestureDetector(
+                      onTap: () async {
+                        final picker = ImagePicker();
+                        final pickedFile = await picker.getImage(source: ImageSource.camera);
 
-                        if (status.isGranted) {
-                          // Permiso concedido, puedes acceder a la cámara y capturar la imagen
+                        if (pickedFile != null) {
+                          imagePath = pickedFile.path;
+                          navigateToResultadoClasificacion(context, imagePath!);
                         } else {
-                          // Permiso denegado, muestra un mensaje o realiza alguna acción adicional
-                        }*/
+                          // Manejo de error si no se capturó una imagen
+                        }
                       },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF0CA5B0),
-                      ),
-                      child: Text(
-                        'Tomar foto',
-                        style: TextStyle(
-                          fontSize: 18.0,
+                      child: Container(
+                        color: Color(0xFF0CA5B0),
+                        padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+                        child: Text(
+                          'Tomar foto',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -116,32 +141,42 @@ class CaptureScreen extends StatelessWidget {
         ),
         bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                icon: Icon(Icons.home, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-                onPressed: () {
-                  // Acción para el ícono de casa
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.camera_alt, size: 27.0, color: Color(0XFF0CA5B0)),
-                onPressed: () {
-                  // Acción para el ícono de cámara
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-                onPressed: () {
-                  // Acción para el ícono de usuario
-                },
-              ),
-            ],
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0), // padding para 'bottomNavigationBar' con 'body'
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                  },
+                  child: Icon(Icons.home, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+                ),
+                GestureDetector(
+                  onTap: null,
+                  child: Icon(Icons.camera_alt, size: 27.0, color: Color(0XFF0CA5B0)),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        // Aquí puedes definir la pantalla a la que deseas navegar
+                        // mientras vas completando su implementación
+                        return HomeScreen();
+                      }),
+                    );
+                  },
+                  child: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'pages/LoginPage.dart';
 
+import 'config/connection.dart';
+
 void main() {
   runApp(const MyApp());
 }

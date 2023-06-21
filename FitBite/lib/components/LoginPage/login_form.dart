@@ -2,6 +2,9 @@ import 'package:fitbite/pages/UserPerfilPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
 
+import 'package:fitbite/config/connection.dart';
+
+
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}): super(key: key);
 
@@ -10,11 +13,30 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  var db = new MySQLConnection();
+  var iduser = '';
+  TextEditingController cUser = new TextEditingController();
+  TextEditingController cPassword = new TextEditingController();
+
+  void _connect() {
+    db.getConnection().then((conn){
+      String sql = "SELECT idUser FROM registro;";
+      conn!.query(sql).then((results) {
+        for(var row in results){
+          setState(() {
+            iduser = row[0];
+          });
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Text(iduser),
           _inputEmail(),
           _inputPassword(),
           _inputRememberPass(),
