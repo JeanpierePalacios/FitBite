@@ -35,12 +35,13 @@ dependencies:
   image_picker: ^0.8.4+4
   path_provider: ^2.0.5
   tflite_flutter: ^0.10.0
-  fluttertoast: ^8.0.8
+  fluttertoast: ^8.2.2
   tflite: ^1.1.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  http: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -69,17 +70,12 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/img/img_carga_1.png
-    - assets/img/img_carga_2.png
-    - assets/img/recomendacion_saludable.jpg
-    - assets/img/pantallaFrutas.jpg
-    - assets/img/pantallaVerduras.jpg
-    - assets/img/btnFrutas.jpg
-    - assets/img/btnVerduras.jpg
-    - assets/img/logo_fitbite.JPG
-    - assets/img/img_arandano.jpg
     - assets/mml_clasificador_fitbite.tflite
     - assets/etiquetas_clasificador_fitbite.txt
+    - assets/fonts/
+    - assets/img/
+    - assets/logo/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -5,7 +5,6 @@ import 'package:fitbite/components/LoginPage/login_form.dart';
 import '../components/LoginPage/login_register.dart';
 import '../components/LoginPage/login_social_redes.dart';
 
-import '../config/connection.dart';
 
 class LoginPage extends StatelessWidget{
   const LoginPage({super.key});

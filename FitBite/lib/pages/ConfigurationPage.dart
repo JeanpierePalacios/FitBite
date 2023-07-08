@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
 
 import '../components/ConfigurationPage/configuration_buttons.dart';
-import '../components/SavedMealsPage/filter_saved_meals.dart';
 
 class ConfigurationPage extends StatelessWidget{
   const ConfigurationPage({super.key});
