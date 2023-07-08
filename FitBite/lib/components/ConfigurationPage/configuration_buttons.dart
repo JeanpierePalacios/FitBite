@@ -1,6 +1,10 @@
-import 'package:fitbite/pages/SavedMeals.dart';
+import 'package:fitbite/pages/HistorialResultadosPage.dart';
+import 'package:fitbite/pages/ConfigurationPage.dart';
+import 'package:fitbite/pages/OpinionesPage.dart';
+import 'package:fitbite/pages/TerminosCondPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
+import 'package:fitbite/pages/InfoCuentaPage.dart';
 
 class ConfigurationButtons extends StatelessWidget {
   const ConfigurationButtons({Key? key}) : super(key: key);
@@ -14,17 +18,20 @@ class ConfigurationButtons extends StatelessWidget {
           SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
-              // Lógica para manejar el evento de presionar el botón "Configuración"
-              // Aquí puedes agregar tu lógica personalizada.
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => InfoCuentaPage()),
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: MyColors.color1, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 46, vertical: 10),
               child: Text(
                 'Información de la cuenta',
                 style: TextStyle(
@@ -41,17 +48,18 @@ class ConfigurationButtons extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SavedMealsPage()),
+                MaterialPageRoute(builder: (context) => HistorialResultados()),
               );
             },
             style: ElevatedButton.styleFrom(
               primary: MyColors.color1, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 52, vertical: 10),
               child: Text(
                 'Historial de resultados',
                 style: TextStyle(
@@ -66,13 +74,16 @@ class ConfigurationButtons extends StatelessWidget {
           SizedBox(height: 10), // Espacio vertical entre los botones
           ElevatedButton(
             onPressed: () {
-              // Lógica para manejar el evento de presionar el botón "Cerrar Sesión"
-              // Aquí puedes agregar tu lógica personalizada.
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => OpinionesPage()),
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: MyColors.color1, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
@@ -91,17 +102,20 @@ class ConfigurationButtons extends StatelessWidget {
           SizedBox(height: 10), // Espacio vertical entre los botones
           ElevatedButton(
             onPressed: () {
-              // Lógica para manejar el evento de presionar el botón "Cerrar Sesión"
-              // Aquí puedes agregar tu lógica personalizada.
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TerminosCondPage()),
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: MyColors.color1, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 29, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 48, vertical: 10),
               child: Text(
                 'Términos y condiciones',
                 style: TextStyle(
@@ -118,4 +132,3 @@ class ConfigurationButtons extends StatelessWidget {
     );
   }
 }
-

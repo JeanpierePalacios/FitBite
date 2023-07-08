@@ -4,12 +4,11 @@ import 'package:fitbite/components/my_colors.dart';
 
 import '../components/ConfigurationPage/configuration_buttons.dart';
 
-class ConfigurationPage extends StatelessWidget{
+class ConfigurationPage extends StatelessWidget {
   const ConfigurationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: MyColors.background0,
       body: SafeArea(
@@ -57,9 +56,36 @@ class ConfigurationPage extends StatelessWidget{
 
                   // Filter saved meals
                   ConfigurationButtons(),
-
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.home, size: 27.0, color: Color(0XFF0CA5B0)),
+              onPressed: () {
+                // Acción para el ícono de casa
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.camera_alt,
+                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              onPressed: () {
+                // Acción para el ícono de cámara
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person,
+                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              onPressed: () {
+                // Acción para el ícono de usuario
+              },
             ),
           ],
         ),

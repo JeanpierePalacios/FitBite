@@ -164,7 +164,10 @@ class _LoginFormState extends State<LoginForm> {
       margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
       child: ElevatedButton(
         onPressed: () {
-          login();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserPerfilPage()),
+          );
         },
         style: ElevatedButton.styleFrom(
           primary: MyColors.color1, // Color de fondo del botón

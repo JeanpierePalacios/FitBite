@@ -1,4 +1,5 @@
 import 'package:fitbite/pages/ConfigurationPage.dart';
+import 'package:fitbite/pages/LoginPage.dart';
 import 'package:fitbite/pages/SavedMeals.dart';
 import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
@@ -23,7 +24,8 @@ class ActionsButtons extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               primary: Colors.grey, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
@@ -50,7 +52,8 @@ class ActionsButtons extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               primary: MyColors.color1, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
@@ -69,13 +72,16 @@ class ActionsButtons extends StatelessWidget {
           SizedBox(height: 10), // Espacio vertical entre los botones
           ElevatedButton(
             onPressed: () {
-              // Lógica para manejar el evento de presionar el botón "Cerrar Sesión"
-              // Aquí puedes agregar tu lógica personalizada.
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.red, // Color de fondo del botón
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Ajusta el valor para controlar la forma del botón
+                borderRadius: BorderRadius.circular(
+                    30), // Ajusta el valor para controlar la forma del botón
               ),
             ),
             child: const Padding(
@@ -96,4 +102,3 @@ class ActionsButtons extends StatelessWidget {
     );
   }
 }
-

@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 0.0),
               Center(
                 child: Image.asset(
-                  'assets/img/logo_fitbite.JPG',
+                  'assets/logo/logo_fitbite.png',
                   width: 200.0,
                   height: 200.0,
                 ),
@@ -143,7 +143,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20.0), // Espacio entre la última imagen y el borde inferior
+              SizedBox(
+                  height:
+                      20.0), // Espacio entre la última imagen y el borde inferior
             ],
           ),
         ),
@@ -160,13 +162,15 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.camera_alt, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              icon: Icon(Icons.camera_alt,
+                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
               onPressed: () {
                 // Acción para el ícono de cámara
               },
             ),
             IconButton(
-              icon: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              icon: Icon(Icons.person,
+                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
               onPressed: () {
                 // Acción para el ícono de usuario
               },
@@ -177,4 +181,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

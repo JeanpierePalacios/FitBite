@@ -1,16 +1,14 @@
-import 'package:fitbite/pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
-
+import 'package:fitbite/pages/LoginPage.dart';
 import '../components/UserPerfilPage/actions_buttons.dart';
 import '../components/UserPerfilPage/perfil_info.dart';
 
-class UserPerfilPage extends StatelessWidget{
-  const UserPerfilPage({super.key});
+class UserPerfilPage extends StatelessWidget {
+  const UserPerfilPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: MyColors.background0,
       body: SafeArea(
@@ -55,16 +53,38 @@ class UserPerfilPage extends StatelessWidget{
                       ),
                     ),
                   ),
-
-                  //Info Perfil
                   PerfilInfo(),
-
-                  //Actions Buttons
                   ActionsButtons(),
-
-
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.home, size: 27.0, color: Color(0XFF0CA5B0)),
+              onPressed: () {
+                // Acción para el ícono de casa
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.camera_alt,
+                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              onPressed: () {
+                // Acción para el ícono de cámara
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person,
+                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              onPressed: () {
+                // Acción para el ícono de usuario
+              },
             ),
           ],
         ),

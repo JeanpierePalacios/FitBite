@@ -71,10 +71,11 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/mml_clasificador_fitbite.tflite
-    - assets/etiquetas_clasificador_fitbite.txt
+    - assets/etiquetas_clasificacion_fitbite.txt
     - assets/fonts/
     - assets/img/
     - assets/logo/
+    - assets/comidas/
     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
