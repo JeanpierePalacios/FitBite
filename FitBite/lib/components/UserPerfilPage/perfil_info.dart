@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
 
 class PerfilInfo extends StatefulWidget {
-  const PerfilInfo({Key? key}): super(key: key);
+  const PerfilInfo({Key? key}) : super(key: key);
 
   @override
   _PerfilInfoState createState() => _PerfilInfoState();
@@ -32,7 +32,7 @@ class _PerfilInfoState extends State<PerfilInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Nombre de Usuario',
+                'Jeanpiere Palacios',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -41,7 +41,7 @@ class _PerfilInfoState extends State<PerfilInfo> {
               ),
               SizedBox(height: 5),
               Text(
-                'Correo electrónico',
+                'jeanpiere@gmail.com',
                 style: TextStyle(
                   fontSize: 12,
                   color: MyColors.textColor,

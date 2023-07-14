@@ -3,6 +3,7 @@ import 'package:fitbite/pages/LoginPage.dart';
 import 'package:fitbite/pages/SavedMeals.dart';
 import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
+import 'package:fitbite/components/pantalla_carga2.dart';
 
 class ActionsButtons extends StatelessWidget {
   const ActionsButtons({Key? key}) : super(key: key);
@@ -74,7 +75,11 @@ class ActionsButtons extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(
+                  builder: (context) => PantallaCarga2(
+                    nextPage: LoginPage(),
+                  ),
+                ),
               );
             },
             style: ElevatedButton.styleFrom(

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fitbite/components/my_colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fitbite/response/ServerResponse.dart';
+import 'package:fitbite/components/pantalla_carga2.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -16,25 +18,61 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
 
-  Future login() async {
-    var url = Uri.parse("http://192.168.1.36/login.php");
-    var response = await http.post(url, body: {
-      "username": user.text,
-      "password": pass.text,
-    });
-    var data = json.decode(response.body);
+  Future<void> _login() async {
+    final correo = user.text;
+    final password = pass.text;
 
-    if (data == "Success") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserPerfilPage(),
-        ),
+    if (correo.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Por favor, ingrese su correo",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
       );
+      return;
+    }
+
+    if (password.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Por favor, ingrese su contraseña",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+      );
+      return;
+    }
+
+    final url = Uri.parse("http://192.168.210.67/login.php");
+    final response = await http.post(url, body: {
+      "correoUser": correo,
+      "passUser": password,
+    });
+
+    if (response.statusCode == ResponseDB.successCode) {
+      final result = json.decode(response.body);
+      if (result['status'] == ResponseDB.success) {
+        final nombreUsuario = result['nombreUsuario'];
+        final correoUsuario = result['correoUsuario'];
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PantallaCarga2(
+              nextPage: UserPerfilPage(),
+            ),
+          ),
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg:
+              "La cuenta no se encuentra registrada o ha ingresado mal sus datos",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+        );
+      }
     } else {
-      child:
-      Text('Username and password invalid',
-          style: TextStyle(fontSize: 25, color: Colors.red));
+      Fluttertoast.showToast(
+        msg: "Error en el servidor",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+      );
     }
   }
 
@@ -70,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
         ],
       ),
       child: TextFormField(
-        controller: user, // Agregamos el controlador al TextFormField
+        controller: user,
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
           labelText: 'Correo electrónico',
@@ -133,7 +171,6 @@ class _LoginFormState extends State<LoginForm> {
             child: Checkbox(
               value: rememberPassword,
               onChanged: (value) {
-                // Actualizar el estado de "rememberPassword" cuando se cambie el estado del Checkbox
                 setState(() {
                   rememberPassword = value!;
                 });
@@ -163,17 +200,11 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => UserPerfilPage()),
-          );
-        },
+        onPressed: _login,
         style: ElevatedButton.styleFrom(
-          primary: MyColors.color1, // Color de fondo del botón
+          primary: MyColors.color1,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-                30), // Ajusta el valor para controlar la forma del botón
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         child: const Padding(
