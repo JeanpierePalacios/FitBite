@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:fitbite/components/pantalla_carga2.dart';
+import 'package:fitbite/config/config.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _RegisterFormState extends State<RegisterForm> {
       return;
     }
 
-    final url = Uri.parse("http://192.168.210.67/register.php");
+    final url = Uri.parse("${config.baseUrl}/register.php");
     final response = await http.post(url, body: {
       "nomUser": nombre,
       "correoUser": correo,

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fitbite/response/ServerResponse.dart';
 import 'package:fitbite/components/pantalla_carga2.dart';
+import 'package:fitbite/config/config.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -40,7 +41,8 @@ class _LoginFormState extends State<LoginForm> {
       return;
     }
 
-    final url = Uri.parse("http://192.168.210.67/login.php");
+    final url = Uri.parse("${config.baseUrl}/login.php");
+
     final response = await http.post(url, body: {
       "correoUser": correo,
       "passUser": password,

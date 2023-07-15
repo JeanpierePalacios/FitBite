@@ -54,6 +54,7 @@ class _ResultadoClasificacionScreenState
       if (confidence >= 0.5) {
         setState(() {
           etiqueta = etiquetaObtenida;
+          obtenerComidas(etiqueta);
         });
       } else {
         setState(() {
@@ -62,7 +63,8 @@ class _ResultadoClasificacionScreenState
       }
     } else {
       setState(() {
-        etiqueta = '¡Algo inesperado ocurrió! No se pudo determinar la fruta/verdura.';
+        etiqueta =
+            '¡Algo inesperado ocurrió! No se pudo determinar la fruta/verdura.';
       });
     }
   }
@@ -77,6 +79,18 @@ class _ResultadoClasificacionScreenState
         obtenerEtiqueta();
       });
     }
+  }
+
+  Future<void> obtenerComidas(String etiqueta) async {
+    // Aquí puedes agregar la lógica para obtener las comidas usando la etiqueta
+    // y navegar a la pantalla de resultado de comidas (PagResultadoComidas)
+    // pasando la etiqueta obtenida y mostrando los detalles de las comidas
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultadoComidasScreen(etiqueta: etiqueta),
+      ),
+    );
   }
 
   @override
@@ -150,14 +164,7 @@ class _ResultadoClasificacionScreenState
                     ),
                     SizedBox(height: 25.0),
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ResultadoComidasScreen(etiqueta: etiqueta),
-                          ),
-                        );
-                      },
+                      onPressed: () => obtenerComidas(etiqueta),
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF0CA5B0),
                         onPrimary: Colors.white,
@@ -183,32 +190,34 @@ class _ResultadoClasificacionScreenState
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0), // padding para 'bottomNavigationBar' con 'body'
+          padding: EdgeInsets.symmetric(
+              vertical: 8.0), // padding para 'bottomNavigationBar' con 'body'
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              GestureDetector(
-                onTap: null,
-                child: Icon(Icons.home, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-              ),
-              GestureDetector(
-                onTap: () {
-                  _captureImage();
-                },
-                child: Icon(Icons.camera_alt, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-              ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      // Aquí puedes definir la pantalla a la que deseas navegar
-                      // mientras vas completando su implementación
                       return HomeScreen();
                     }),
                   );
                 },
-                child: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+                child: Icon(Icons.home,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+              GestureDetector(
+                onTap: _captureImage,
+                child: Icon(Icons.camera_alt,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  // Navegar a la pantalla de perfil o realizar alguna acción relacionada con el perfil del usuario
+                },
+                child: Icon(Icons.person,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
               ),
             ],
           ),

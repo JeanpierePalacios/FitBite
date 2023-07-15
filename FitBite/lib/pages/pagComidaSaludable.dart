@@ -103,12 +103,7 @@ class PagComidaSaludable extends StatelessWidget {
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ResultadoComidasScreen()),
-            );
-          },
+          onPressed: () {},
           color: Colors.black,
         ),
       ),
@@ -145,7 +140,8 @@ class PagComidaSaludable extends StatelessWidget {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        _mostrarPopupGuardado(context); // Llamada al método del popup
+                        _mostrarPopupGuardado(
+                            context); // Llamada al método del popup
                       },
                       child: Material(
                         color: Colors.transparent,
@@ -253,19 +249,22 @@ class PagComidaSaludable extends StatelessWidget {
                 onTap: () {
                   // Acción para el ícono de inicio
                 },
-                child: Icon(Icons.home, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+                child: Icon(Icons.home,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
               ),
               GestureDetector(
                 onTap: () {
                   // Acción para el ícono de cámara
                 },
-                child: Icon(Icons.camera_alt, size: 27.0, color: Color(0XFF0CA5B0)),
+                child: Icon(Icons.camera_alt,
+                    size: 27.0, color: Color(0XFF0CA5B0)),
               ),
               GestureDetector(
                 onTap: () {
                   // Acción para el ícono de perfil
                 },
-                child: Icon(Icons.person, size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+                child: Icon(Icons.person,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
               ),
             ],
           ),
