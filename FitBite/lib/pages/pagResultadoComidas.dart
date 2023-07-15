@@ -1,30 +1,45 @@
 import 'package:fitbite/pages/pagHome.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Comidas Saludables',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ResultadoComidasScreen(),
-    );
-  }
-}
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ResultadoComidasScreen extends StatefulWidget {
+  final String etiqueta;
+
+  ResultadoComidasScreen({required this.etiqueta});
+
   @override
   _ResultadoComidasScreenState createState() => _ResultadoComidasScreenState();
 }
 
 class _ResultadoComidasScreenState extends State<ResultadoComidasScreen> {
-  String selectedFilter = ''; // Variable para almacenar el filtro seleccionado
+  List<Comida> comidas = []; // Lista para almacenar las comidas obtenidas de la base de datos
+
+  @override
+  void initState() {
+    super.initState();
+    // Llamada a la función para obtener las comidas según la etiqueta
+    obtenerComidasPorEtiqueta(widget.etiqueta);
+  }
+
+  void obtenerComidasPorEtiqueta(String etiqueta) async {
+    // Realizar la solicitud HTTP al archivo PHP y obtener los resultados
+    var url = Uri.parse('http://169.254.86.2/obtener_comidas.php');
+    var response = await http.post(url, body: {'etiqueta': etiqueta});
+
+    if (response.statusCode == 200) {
+      // Decodificar la respuesta JSON y obtener los resultados
+      var data = jsonDecode(response.body) as List<dynamic>;
+
+      setState(() {
+        // Mapear los resultados a objetos Comida y almacenarlos en la lista
+        comidas = data.map((item) => Comida.fromMap(item)).toList();
+      });
+    } else {
+      // Manejar el error si la solicitud HTTP falla
+      print('Error en la solicitud HTTP: ${response.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,124 +74,13 @@ class _ResultadoComidasScreenState extends State<ResultadoComidasScreen> {
                 ),
               ),
               SizedBox(height: 30.0),
-              SingleChildScrollView( // Scroll vertical independiente
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedFilter = 'Desayuno';
-                        });
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: selectedFilter == 'Desayuno' ? Colors.black : Colors.green,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'Desayuno',
-                            style: TextStyle(
-                              color: selectedFilter == 'Desayuno' ? Colors.black : Colors.green,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 5.0),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedFilter = 'Almuerzo';
-                        });
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: selectedFilter == 'Almuerzo' ? Colors.black : Colors.orange,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'Almuerzo',
-                            style: TextStyle(
-                              color: selectedFilter == 'Almuerzo' ? Colors.black : Colors.orange,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 5.0),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedFilter = 'Cena';
-                        });
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: selectedFilter == 'Cena' ? Colors.black : Colors.blue,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'Cena',
-                            style: TextStyle(
-                              color: selectedFilter == 'Cena' ? Colors.black : Colors.blue,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              Column(
+                children: comidas.map((comida) => MealCard(
+                  image: comida.image,
+                  name: comida.name,
+                  filter: widget.etiqueta,
+                )).toList(),
               ),
-              SizedBox(height: 16.0),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: [
-                    MealCard(
-                      image: 'assets/img/recomendacion_saludable.jpg',
-                      name: 'Comida Saludable 1',
-                      filter: selectedFilter,
-                    ),
-                    SizedBox(height: 16.0),
-                    MealCard(
-                      image: 'assets/img/recomendacion_saludable.jpg',
-                      name: 'Comida Saludable 2',
-                      filter: selectedFilter,
-                    ),
-                    SizedBox(height: 16.0),
-                    MealCard(
-                      image: 'assets/placeholder_image.jpg',
-                      name: 'Comida Saludable 3',
-                      filter: selectedFilter,
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),
@@ -184,7 +88,7 @@ class _ResultadoComidasScreenState extends State<ResultadoComidasScreen> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0), // padding para 'bottomNavigationBar' con 'body'
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -206,6 +110,8 @@ class _ResultadoComidasScreenState extends State<ResultadoComidasScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
+                      // Aquí puedes definir la pantalla a la que deseas navegar
+                      // mientras vas completando su implementación
                       return HomeScreen();
                     }),
                   );
@@ -216,6 +122,21 @@ class _ResultadoComidasScreenState extends State<ResultadoComidasScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Comida {
+  final String image;
+  final String name;
+
+  Comida({required this.image, required this.name});
+
+  // Método para crear un objeto Comida a partir de un mapa
+  factory Comida.fromMap(Map<String, dynamic> map) {
+    return Comida(
+      image: map['imgComida'],
+      name: map['nomComida'],
     );
   }
 }
@@ -248,7 +169,7 @@ class MealCard extends StatelessWidget {
                 child: Container(
                   child: Padding(
                     padding: EdgeInsets.only(left: 8.0),
-                    child: Image.asset(
+                    child: Image.network(
                       image,
                       fit: BoxFit.cover,
                     ),
