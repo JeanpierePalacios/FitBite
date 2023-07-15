@@ -154,7 +154,7 @@ class _ResultadoClasificacionScreenState
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ResultadoComidasScreen(),
+                            builder: (context) => ResultadoComidasScreen(etiqueta: etiqueta),
                           ),
                         );
                       },
