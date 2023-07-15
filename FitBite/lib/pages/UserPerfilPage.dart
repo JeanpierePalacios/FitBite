@@ -3,6 +3,10 @@ import 'package:fitbite/components/my_colors.dart';
 import 'package:fitbite/pages/LoginPage.dart';
 import '../components/UserPerfilPage/actions_buttons.dart';
 import '../components/UserPerfilPage/perfil_info.dart';
+import 'package:fitbite/pages/pagFrutas.dart';
+import 'package:fitbite/pages/pagRecomendacionSaludable.dart';
+import 'package:fitbite/pages/pagVerduras.dart';
+import 'package:fitbite/pages/pagHome.dart';
 
 class UserPerfilPage extends StatelessWidget {
   const UserPerfilPage({Key? key}) : super(key: key);
@@ -63,30 +67,42 @@ class UserPerfilPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home, size: 27.0, color: Color(0XFF0CA5B0)),
-              onPressed: () {
-                // Acción para el ícono de casa
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt,
-                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-              onPressed: () {
-                // Acción para el ícono de cámara
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.person,
-                  size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
-              onPressed: () {
-                // Acción para el ícono de usuario
-              },
-            ),
-          ],
+        child: Container(
+          padding: EdgeInsets.symmetric(
+              vertical: 8.0), // padding para 'bottomNavigationBar' con 'body'
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: null,
+                child: Icon(Icons.home, size: 27.0, color: Color(0XFF0CA5B0)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CaptureScreen()),
+                  );
+                },
+                child: Icon(Icons.camera_alt,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      // Aquí puedes definir la pantalla a la que deseas navegar
+                      // mientras vas completando su implementación
+                      return HomeScreen();
+                    }),
+                  );
+                },
+                child: Icon(Icons.person,
+                    size: 27.0, color: Color.fromRGBO(12, 165, 176, 0.75)),
+              ),
+            ],
+          ),
         ),
       ),
     );
